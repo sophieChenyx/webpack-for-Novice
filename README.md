@@ -4,26 +4,55 @@
 不同的js没有经过webpack相关的打包是不识别的；
 webpack可以对 .js  .png   .css 静态关系进行一个依赖的集合；
 例如typescript这种在javascript基础上开发的语言使我们能够实现目前版本的javascript不能直接使用的特性，并且之后还能转换为javascript,使得jacascript文件使浏览器可以识别；
-webpack是模块打包机，分析项目结构，找到找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其转换和打包为合适的格式供浏览器使用。
+webpack是模块打包机，分析项目结构，找到找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其转换和打包为合适的格式供浏览器使用。 
 ```
 
 Webpack的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。
 
 ### 一个基础项目的相关webpack.config.js文件的配置
 ```
-一个基础的webpack.config.js配置文件;
+本项目的基础的webpack.config.js配置文件;
+var webpack = require('webpack');
+var path = require('path');
+
 module.exports = {
-  entry: "./source/index.js",
-  module:{
-    rules:[{    
-      test:/\.js?$/,  //正则选择.js结尾的文件
-      exclude:/(node_moudles)/,  //不包括(node_modules)中的文件
-      loader:'babel-loader',  //用bable-loader来处理.js文件
-      query:{presets:['react','es2015']}   //同时也会加载这些包来处理
-    }]
+  context:path.resolve(__dirname,'src'),
+  entry:{
+    main:'./main',
+    login:'./modules/login',
+    product:'./modules/product'
   },
-  output:{
-    filename:'./source/bundle.js' //打好包后到这个文件夹下
+  module:{
+    rules:[{
+        test: /\.js$/, 
+        loader: 'babel-loader', 
+        query:{presets:['es2015']}
+      },
+      {
+        test:/\.css$/,
+        loader:'style-loader!css-loader'
+      },
+      {test:/\.(png|jpg)$/,loader:'url-loader?limit=8192'}
+    ]
+  },
+  plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ],
+  devServer:{
+    contentBase: path.join(__dirname, 'dist'),
+    compress: false,
+    inline: true,
+    port: 8080,
+    hot:true
+  },
+  resolve: {
+      extensions:  ['.js','.vue'] 
+    },
+  output: {
+    path:path.join(__dirname,'dist'),
+    publicPath:'/',
+    filename: '[name]-[hash:8].js',
+    chunkFilename:'[id]-[chunkhash].js'
   }
 }
 
@@ -33,15 +62,51 @@ module.exports = {
 
 ## 让我们来开始做这样的一个小demo吧
 
-* node webpack npm已经相关工具的安装网上一大堆就不解释了，我的项目中所用的版本如下：
+* node webpack 的准备工作npm已经相关工具的安装网上一大堆就不解释了，我的项目中所用的版本如下：
   * webpack 版本：4.2.0
   * node 版本：8.9.1
   * npm 版本：5.5.1
-* 全局安装webpack(有时候也不用全局安装，但是没有办法执行全局命令，需要执行的是`node_moudles/.bin/webpack`这样的没有安装全局webpack时的指令)；
+
+
+* npm初始化生成一个package.json 文件
+  ``npm init``
+
+* 创建基本的项目的目录结构，用来放置对应的文件
+> |-src
+> | |-main.js
+> | |-assets
+> | | |-css
+> | | |-img
+> |-webpack.config.js
+> |-package.json
+> |-README.md
+
+
+* 全局安装webpack(有时候也不用全局安装，但是没有办法执行全局命令，需要执行的是`node_modules/.bin/webpack`这样的没有安装全局webpack时的指令)；
+
 ```
-npm install webpack  --save-dev  //局部安装
+npm install webpack  --save-dev  //局部安装（安装后会生成一个package-lock.json这个是锁定安装时的版本号，并且需要上传到git，确保在他人安装的依赖的时候大家的依赖版本能够保持一致）
 npm install webpack  -g --save-dev //全局安装
 ```
+
+
+* 安装成功之后检查当前的webpack的版本，显示正确的版本后表示webpack安装成功，现在开始进行webpack.config.js文件的基础配置；
+
+> module.exports = {
+>   entry:'./src/main.js',  
+>   output:{
+>     filename:'./dist/bundle.js'  
+>   }
+> }
+> 此时就是一个基础的webpack.config.js配置文件，在命令行可以直接输入`$ webpack`来执行一个基础的对main.js文件的打包；
+在没有全局安装webpack的时候，只需执行`$ node_modules/.bin/webpack`即可完成简单的打包命令操作。在这里使用的是webpack 版本为4.2.0，会要求安装webpack-cli
+> $ node_modules/.bin/webpack
+> The CLI moved into a separate package: webpack-cli.
+> Please install 'webpack-cli' in addition to webpack itself to use the CLI.
+> -> When using npm: npm install webpack-cli -D
+> -> When using yarn: yarn add webpack-cli -D
+
+
 
 
 
