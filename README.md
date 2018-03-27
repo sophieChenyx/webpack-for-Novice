@@ -3,11 +3,14 @@
 ```
 不同的js没有经过webpack相关的打包是不识别的；
 webpack可以对 .js  .png   .css 静态关系进行一个依赖的集合；
-例如typescript这种在javascript基础上开发的语言使我们能够实现目前版本的javascript不能直接使用的特性，并且之后还能转换为javascript,使得jacascript文件使浏览器可以识别；
-webpack是模块打包机，分析项目结构，找到找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其转换和打包为合适的格式供浏览器使用。 
+例如typescript这种在javascript基础上开发的语言使我们能够实现目前版本的javascript不能直接使用的特性，
+并且之后还能转换为javascript,使得jacascript文件使浏览器可以识别；
+webpack是模块打包机，分析项目结构，找到找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），
+并将其转换和打包为合适的格式供浏览器使用。 
 ```
 
-Webpack的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。
+Webpack的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），
+Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。
 
 ### 一个基础项目的相关webpack.config.js文件的配置
 ```
@@ -56,7 +59,9 @@ module.exports = {
   }
 }
 
-//这里只存在入口文件和输出文件，使用了babel-loader加载器,在这里的module定义了对模块的处理逻辑，这里可以用loaders定义了一系列的加载器，以及一些正则。当需要加载的文件匹配test的正则时，就会调用后面的loader对文件进行处理，这正是webpack强大的原因。
+//这里只存在入口文件和输出文件，使用了babel-loader加载器,在这里的module定义了对模块的处理逻辑，
+这里可以用loaders定义了一系列的加载器，以及一些正则。当需要加载的文件匹配test的正则时，就会调用后面的loader对文件进行处理，
+这正是webpack强大的原因。
 ```
 
 
@@ -72,14 +77,14 @@ module.exports = {
   ``npm init``
 
 * 创建基本的项目的目录结构，用来放置对应的文件
-> |-src
-> | |-main.js
-> | |-assets
-> | | |-css
-> | | |-img
-> |-webpack.config.js
-> |-package.json
-> |-README.md
+> |-src  
+> | |-main.js  
+> | |-assets  
+> | | |-css  
+> | | |-img  
+> |-webpack.config.js  
+> |-package.json  
+> |-README.md  
 
 
 * 全局安装webpack(有时候也不用全局安装，但是没有办法执行全局命令，需要执行的是`node_modules/.bin/webpack`这样的没有安装全局webpack时的指令)；
