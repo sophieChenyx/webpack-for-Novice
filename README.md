@@ -73,10 +73,10 @@ module.exports = {
   * npm 版本：5.5.1
 
 
-* npm初始化生成一个package.json 文件
+* 1.npm初始化生成一个package.json 文件  
   ``npm init``
 
-* 创建基本的项目的目录结构，用来放置对应的文件
+* 2.创建基本的项目的目录结构，用来放置对应的文件
 > |-src  
 > | |-main.js  
 > | |-assets  
@@ -87,7 +87,7 @@ module.exports = {
 > |-README.md  
 
 
-* 全局安装webpack(有时候也不用全局安装，但是没有办法执行全局命令，需要执行的是`node_modules/.bin/webpack`这样的没有安装全局webpack时的指令)；
+* 3.安装webpack；
 
 ```
 npm install webpack  --save-dev  //局部安装（安装后会生成一个package-lock.json这个是锁定安装时的版本号，并且需要上传到git，确保在他人安装的依赖的时候大家的依赖版本能够保持一致）
@@ -95,21 +95,88 @@ npm install webpack  -g --save-dev //全局安装
 ```
 
 
-* 安装成功之后检查当前的webpack的版本，显示正确的版本后表示webpack安装成功，现在开始进行webpack.config.js文件的基础配置；
+#### 安装成功之后检查当前的webpack的版本，显示正确的版本后表示webpack安装成功，现在开始进行webpack.config.js文件的基础配置；
 
-> module.exports = {
+> module.exports = {  
 >   entry:'./src/main.js',  
->   output:{
+>   output:{  
 >     filename:'./dist/bundle.js'  
->   }
-> }
-> 此时就是一个基础的webpack.config.js配置文件，在命令行可以直接输入`$ webpack`来执行一个基础的对main.js文件的打包；
-在没有全局安装webpack的时候，只需执行`$ node_modules/.bin/webpack`即可完成简单的打包命令操作。在这里使用的是webpack 版本为4.2.0，会要求安装webpack-cli
-> $ node_modules/.bin/webpack
-> The CLI moved into a separate package: webpack-cli.
-> Please install 'webpack-cli' in addition to webpack itself to use the CLI.
-> -> When using npm: npm install webpack-cli -D
-> -> When using yarn: yarn add webpack-cli -D
+>   }  
+> }  
+> 此时就是一个基础的webpack.config.js配置文件，在命令行可以直接输入`$ webpack`来执行一个基础的对main.js文件的打包；  
+> 在没有全局安装webpack的时候，只需执行`$ node_modules/.bin/webpack`即可完成简单的打包命令操作。在这里使用的是webpack 
+> 本为4.2.0，会要求安装webpack-cli,出现如下提示  
+> $ node_modules/.bin/webpack  
+> The CLI moved into a separate package: webpack-cli.  
+> Please install 'webpack-cli' in addition to webpack itself to use the CLI.  
+> -> When using npm: npm install webpack-cli -D  
+> -> When using yarn: yarn add webpack-cli -D  
+
+安装成功后命令行执行命令即可完成基础的打包过程，dist目录下生成bundle.js文件
+
+* 4.使用loader
+  * loader是比较核心的一块内容，他将各类静态资源通过loader转换成相应的模块
+> module:{  
+>   rules:[{                                //loaders加载器  
+>        test: /\.js$/,                     //匹配loaders所处理文件的文件扩展名的正则表达式  
+>        loader: 'babel-loader',            //loader的名称  
+>       query:{presets:['es2015']}          //为loader提供的额外设置的选项
+>      },  
+>      {  
+>        test:/\.css$/,  
+>        loader:'style-loader!css-loader'  
+>      },  
+>      {test:/\.(png|jpg)$/,loader:'url-loader?limit=8192'}  
+>    ]  
+>  }  
+
+
+安装以上的相关安装包，为别对.js，.css,image图片进行了处理；babel相关的使用可以使得一些es6进行到es5的转码；
+如果没有安装相关的使用的话，那么没有相应的loader进行处理，就会报错；  
+
+* 5.添加css文件和img文件；    
+在`./src/assets/css`下新建style.css文件,`./src/assets/css`下加入图片文件，在`main.js`中分别引入两个文件
+
+> main.js
+
+<code>
+require('./assets/css/style.css');
+
+var img = document.createElement('img')
+let box = document.querySelector('.box')
+
+img.src = require('./assets/img/chenyx.png')
+box.appendChild(img)
+</code>
+
+> style.css
+
+<code>
+  .box{
+  width: 200px;
+  height: 200px;
+  background-color: pink;
+  box-shadow: 10px 10px 30px #ccc;
+  }
+</code>
+
+> dist目录下的index.html页面
+
+<code> 
+<h1>index中的内容</h1>
+<div class="box">
+  样式由.css文件添加
+</div>
+</code>
+
+* 6.安装webpack-dev-server,开启本地服务
+
+
+
+
+
+
+
 
 
 
@@ -121,7 +188,7 @@ npm install -g webpack
 //安装到自己的项目
 npm install --save-dev webpack
 此时生成的是package-lock.json
-这个是锁定安装时的版本号，并且需要上传到git 确保别人在安装依赖的时候大家的依赖版本能够保持一直；
+这个是锁定安装时的版本号，并且需要上传到git 确保别人在安装依赖的时候大家的依赖版本能够保持一致；
 
 使用webpack前的准备
 ------------------
