@@ -145,7 +145,7 @@ npm install webpack  -g --save-dev //全局安装
 > box.appendChild(img)  
 
 
-> ###style.css  
+> ### style.css  
 >  .box{  
 >   width: 200px;  
 >   height: 200px;  
@@ -218,7 +218,8 @@ devServer:{
   new webpack.HotModuleReplacementPlugin()  
 ]  
 
-
+如果你在练习的过程中出现任何bug，可以给我留言，因为即使是这么小的demo我是一次就成功的，中间遇到了许多bug.  
+不过只要解决了就会十分高兴呐；
 更多可以访问我的个人博客：https://sophiechenyx.github.io/blog/
 
 
