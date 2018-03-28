@@ -137,40 +137,30 @@ npm install webpack  -g --save-dev //全局安装
 * 5.添加css文件和img文件；    
 在`./src/assets/css`下新建style.css文件,`./src/assets/css`下加入图片文件，在`main.js`中分别引入两个文件
 
-> main.js
+> ### main.js  
+> require('./assets/css/style.css');  
+> var img = document.createElement('img')  
+> let box = document.querySelector('.box')  
+> img.src = require('./assets/img/chenyx.png')  
+> box.appendChild(img)  
 
-<code>
-require('./assets/css/style.css');  
-var img = document.createElement('img')  
-let box = document.querySelector('.box')  
-img.src = require('./assets/img/chenyx.png')  
-box.appendChild(img)  
-</code>
 
-> style.css
+> ###style.css  
+>  .box{  
+>   width: 200px;  
+>   height: 200px;  
+>   background-color: pink;  
+>   box-shadow: 10px 10px 30px #ccc;  
+>   }  
 
-<code>
-  .box{  
-  width: 200px;  
-  height: 200px;  
-  background-color: pink;  
-  box-shadow: 10px 10px 30px #ccc;  
-  }  
-</code>
 
-> dist目录下的index.html页面
-
-<code> 
-
+dist目录下的index.html页面
 ```html
   <h1>index中的内容</h1>  
   <div class="box">   
     样式由.css文件添加   
   </div>  
 ```
- 
-
-</code>  
 
 * 6.安装webpack-dev-server,开启本地服务
 
